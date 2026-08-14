@@ -26,7 +26,7 @@ Open [`references/style-guide.md`](references/style-guide.md) and check the defa
 
 > *"This is your first diagram in this project. The style guide is still at the default (neutral white-smoke + atomic-tangerine). Do you want to customize it to match your brand first? Options: (a) pull from your website URL, (b) extract from an installed skill, (c) extract from a local folder / design-system directory, (d) paste tokens manually, (e) proceed with the default for now, (f) load a saved client profile, (g) use a named brand design system."*
 
-Then branch per the matching section of [`references/onboarding.md`](references/onboarding.md); for **(f)** follow [`references/profiles.md`](references/profiles.md); for **(g)** (montage/원티드, linear, notion, vercel, ios26 …) run `python3 <skill-dir>/scripts/design_md_skin.py <brand>` and see [`references/design-md-bridge.md`](references/design-md-bridge.md).
+Then branch per the matching section of [`references/onboarding.md`](references/onboarding.md); for **(f)** follow [`references/profiles.md`](references/profiles.md); for **(g)** (montage/원티드, linear, notion, vercel, ios26 …) run `python3 <skill-dir>/scripts/design_md_skin.py <brand>` — [`design-md-bridge.md`](references/design-md-bridge.md). **Inside an app, prefer the app's own tokens:** `python3 <skill-dir>/scripts/project_skin.py <dir>` — [`frontend-design-bridge.md`](references/frontend-design-bridge.md).
 
 **Once the style guide has been customized** (or the user explicitly opted for default), skip this gate on subsequent runs. A leading profile header names the copied-in active profile. Without a header, any semantic-role value or typography family differing from shipped defaults means **custom-unsaved**: skip the gate and offer to save it as a profile. All-default tokens with no marker/header trigger the gate. At the end of every onboarding method, offer to save the result as a named client profile per `references/profiles.md`.
 
@@ -34,10 +34,9 @@ Then branch per the matching section of [`references/onboarding.md`](references/
 
 ## 0.5. Korean gate — load the CJK layer before placing a box
 
-**Any Hangul in any label needs the Korean layer first.** The three shipped families carry no Hangul
-glyphs, and every width budget below was measured in Latin characters — so Korean fails twice: labels
-fall back to whatever font the reader has, and they overrun boxes sized for a `0.5em` advance when a
-syllable takes `1.0em`.
+**Any Hangul in any label needs the Korean layer first.** The shipped families carry no Hangul
+glyphs, and every width budget below assumes a Latin `0.5em` advance — so Korean fails twice: system
+fallback, plus labels overrunning boxes when a syllable takes `1.0em`.
 
 Load [`references/ko-typography.md`](references/ko-typography.md); start from
 `assets/template-ko.html`. Fonts, size floors, widths — no colors. Three numbers:
@@ -51,11 +50,9 @@ Verify with `python3 <skill-dir>/scripts/ko_check.py <file>`.
 
 ## 0.6. Verify by rendering
 
-Static checkers estimate; a browser measures. After §9, run
+Static checkers estimate; a browser measures. After §9 run
 `python3 <skill-dir>/scripts/render_check.py <file> --shot ./shots` and **look at the PNG**: real
-overflow, real occlusion, and the font actually used per label — a missing webfont never errors, it
-falls back to whatever is installed on *your* machine.
-See [`references/verify-render.md`](references/verify-render.md).
+overflow, real occlusion, real font per label. See [`verify-render.md`](references/verify-render.md).
 
 ---
 

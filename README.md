@@ -343,6 +343,7 @@ diagram-design/
 │       │   ├── onboarding.md        — the URL-to-tokens flow
 │       │   ├── profiles.md          — named client profiles + project markers
 │       │   ├── design-md-bridge.md  — skinning from a design-md brand token file
+│       │   ├── frontend-design-bridge.md — a diagram inside a frontend-design page
 │       │   ├── ko-typography.md     — Korean/CJK layer: fonts, size floors, width budgets
 │       │   ├── verify-render.md     — render-and-measure loop
 │       │   ├── import-drawio.md     — draw.io redraw procedure

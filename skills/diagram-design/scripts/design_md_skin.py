@@ -232,12 +232,19 @@ def assign_roles(found: list[dict], dark: bool) -> tuple[dict[str, dict], dict[s
     # muted — lowest-contrast neutral that still clears AA. Searches muted ∪ ink ∪ rule.
     if ink:
         ink_contrast = contrast_ratio(ink["hex"], paper["hex"])
-        viable = [
-            i for i in pool("muted", "ink", "rule")
-            if i["hex"] != ink["hex"]
-            and 4.5 <= contrast_ratio(i["hex"], paper["hex"]) < ink_contrast
-            and i["saturation"] < 0.45
-        ]
+        def viable_muted(candidates: list[dict]) -> list[dict]:
+            return [
+                i for i in candidates
+                if i["hex"] != ink["hex"]
+                and 4.5 <= contrast_ratio(i["hex"], paper["hex"]) < ink_contrast
+                and i["saturation"] < 0.45
+            ]
+
+        # Keyword buckets first; then the whole set. A codebase names colors by
+        # scale (`slate-600`) or by use (`fill`), so the right neutral routinely
+        # lands in the wrong bucket — `fill` reads as a surface, not as text.
+        # When naming fails, the measurement still holds.
+        viable = viable_muted(pool("muted", "ink", "rule")) or viable_muted(dedupe(found))
         ranked["muted"] = sorted(viable, key=lambda i: contrast_ratio(i["hex"], paper["hex"]))[:4]
 
     # accent — most saturated brand color that actually separates from paper

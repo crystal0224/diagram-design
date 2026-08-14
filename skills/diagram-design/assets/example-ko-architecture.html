@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>적재 파이프라인</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f5f5f5;
+      --color-ink:     #2d3142;
+      --color-muted:   #4f5d75;
+      --color-accent:  #eb6c36;
+      --font-sans:     'Geist', 'Pretendard Variable', Pretendard, 'IBM Plex Sans KR', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', 'Noto Serif KR', serif;
+      --font-mono:     'Geist Mono', 'IBM Plex Sans KR', ui-monospace, monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 3rem 2rem;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    .frame { max-width: 1200px; width: 100%; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em;
+      color: var(--color-muted); margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400; letter-spacing: -0.01em; line-height: 1.35;
+      color: var(--color-ink); margin-bottom: 1.5rem;
+    }
+    p, li { line-height: 1.7; }
+    svg { width: 100%; min-width: 900px; display: block; }
+    svg text { font-family: var(--font-sans); }
+    svg text.mono { font-family: var(--font-mono); }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">아키텍처 · Diagram Design</p>
+    <h1>운영 DB에서 웨어하우스까지, 적재 경로</h1>
+
+    <svg viewBox="0 120 1000 288" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ko-architecture-title ko-architecture-desc">
+      <title id="ko-architecture-title">적재 파이프라인</title>
+      <desc id="ko-architecture-desc">운영 DB와 이벤트 로그가 수집 커넥터를 거쳐 스트림 버퍼에 모이고, 정합성 검증을 지나 데이터 웨어하우스에 적재되는 경로.</desc>
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
+        <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+      </defs>
+
+      <rect x="0" y="120" width="1000" height="288" fill="#f5f5f5"/>
+
+      <!-- arrows -->
+      <line x1="184" y1="180" x2="252" y2="180" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+      <line x1="184" y1="268" x2="252" y2="268" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+      <line x1="424" y1="180" x2="472" y2="180" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="424" y1="268" x2="472" y2="268" stroke="#4f5d75" stroke-width="1"/>
+      <path d="M 472 180 L 480 180 L 480 224 L 496 224" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+      <path d="M 472 268 L 480 268 L 480 224 L 496 224" fill="none" stroke="#4f5d75" stroke-width="1"/>
+      <line x1="664" y1="224" x2="736" y2="224" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+
+      <!-- arrow labels — mask width = syllables x 12 + 8, 8px clear of the stroke -->
+      <rect x="196" y="152" width="44" height="12" fill="#f5f5f5"/>
+      <text x="218" y="161" font-size="12" fill="#4f5d75" text-anchor="middle">변경분</text>
+
+      <rect x="196" y="240" width="44" height="12" fill="#f5f5f5"/>
+      <text x="218" y="249" font-size="12" fill="#4f5d75" text-anchor="middle">append</text>
+
+      <rect x="676" y="196" width="44" height="12" fill="#f5f5f5"/>
+      <text x="698" y="205" font-size="12" fill="#eb6c36" text-anchor="middle">일 배치</text>
+
+      <!-- nodes -->
+      <rect x="40" y="152" width="144" height="56" rx="6" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+      <text x="112" y="176" font-size="12" font-weight="600" fill="#2d3142" text-anchor="middle">운영 DB</text>
+      <text x="112" y="192" font-size="9" class="mono" fill="#4f5d75" text-anchor="middle">PostgreSQL 14</text>
+
+      <rect x="40" y="240" width="144" height="56" rx="6" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+      <text x="112" y="264" font-size="12" font-weight="600" fill="#2d3142" text-anchor="middle">이벤트 로그</text>
+      <text x="112" y="280" font-size="9" class="mono" fill="#4f5d75" text-anchor="middle">Kafka · 6 part.</text>
+
+      <rect x="264" y="152" width="160" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="344" y="176" font-size="12" font-weight="600" fill="#2d3142" text-anchor="middle">수집 커넥터</text>
+      <text x="344" y="192" font-size="9" class="mono" fill="#4f5d75" text-anchor="middle">Debezium</text>
+
+      <rect x="264" y="240" width="160" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="344" y="264" font-size="12" font-weight="600" fill="#2d3142" text-anchor="middle">이벤트 수집기</text>
+      <text x="344" y="280" font-size="9" class="mono" fill="#4f5d75" text-anchor="middle">:9092</text>
+
+      <rect x="504" y="196" width="160" height="56" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.2"/>
+      <text x="584" y="220" font-size="12" font-weight="600" fill="#2d3142" text-anchor="middle">정합성 검증</text>
+      <text x="584" y="236" font-size="9" class="mono" fill="#4f5d75" text-anchor="middle">dbt test · 41</text>
+
+      <rect x="740" y="196" width="200" height="56" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+      <text x="840" y="220" font-size="12" font-weight="600" fill="#2d3142" text-anchor="middle">데이터 웨어하우스</text>
+      <text x="840" y="236" font-size="9" class="mono" fill="#4f5d75" text-anchor="middle">BigQuery · ko-central</text>
+
+      <!-- legend -->
+      <line x1="40" y1="348" x2="960" y2="348" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+      <text x="40" y="368" font-size="12" class="mono" fill="#4f5d75" letter-spacing="0.04em">범례</text>
+      <text x="120" y="368" font-size="12" fill="#4f5d75">점선 없음 · 상시 경로</text>
+      <text x="320" y="368" font-size="12" fill="#eb6c36">강조 · 병목 구간</text>
+      <text x="520" y="368" font-size="12" fill="#4f5d75">회색 박스 · 외부 시스템</text>
+    </svg>
+  </div>
+</body>
+</html>

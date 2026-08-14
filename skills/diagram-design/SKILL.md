@@ -1,6 +1,6 @@
 ---
 name: diagram-design
-description: Create branded architecture, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, loop/flywheel, nested, tree, org chart, layer stack, Venn, pyramid/funnel, bar, line, Gantt and scatter charts, high-level, process, medallion, data flow, DP integration, or DP security matrix diagrams as standalone HTML/SVG/PNG. Redraw .drawio/.drawio.png/.drawio.svg or Mermaid .mmd sources at a chosen size/detail; onboard brand tokens from a website; add semantic patterns, callouts, accessible motion, or sketchy/hand-drawn styling.
+description: Create branded architecture, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, loop/flywheel, nested, tree, org chart, layer stack, Venn, pyramid/funnel, bar, line, Gantt and scatter charts, high-level, process, medallion, data flow, DP integration, or DP security matrix diagrams as standalone HTML/SVG/PNG. Redraw .drawio/.drawio.png/.drawio.svg or Mermaid .mmd sources at a chosen size/detail; onboard brand tokens from a website; add semantic patterns, callouts, accessible motion, or sketchy/hand-drawn styling. Korean/CJK diagrams supported — 다이어그램, 도식, 아키텍처 그림, 구조도, 흐름도, 순서도, 조직도, 계층도, 타임라인, 간트, 매트릭스, 도표를 그려줘/만들어줘.
 license: MIT
 metadata:
   version: "2.4"
@@ -28,7 +28,36 @@ Open [`references/style-guide.md`](references/style-guide.md) and check the defa
 
 Then branch per the matching section of [`references/onboarding.md`](references/onboarding.md); for **(f)** follow [`references/profiles.md`](references/profiles.md).
 
+- **(b′)** *"use the <brand> design system"* (montage/원티드, linear, notion, vercel, ios26 …) → `python3 <skill-dir>/scripts/design_md_skin.py <brand>` maps ~62 `design-md` brand files onto these roles and measures the result; `--structure-only` when a palette already works. See [`references/design-md-bridge.md`](references/design-md-bridge.md).
+
 **Once the style guide has been customized** (or the user explicitly opted for default), skip this gate on subsequent runs. A leading profile header names the copied-in active profile. Without a header, any semantic-role value or typography family differing from shipped defaults means **custom-unsaved**: skip the gate and offer to save it as a profile. All-default tokens with no marker/header trigger the gate. At the end of every onboarding method, offer to save the result as a named client profile per `references/profiles.md`.
+
+---
+
+## 0.5. Korean gate — load the CJK layer before placing a box
+
+**Any Hangul in any label needs the Korean layer first.** The three shipped families carry no Hangul
+glyphs, and every width budget below was measured in Latin characters — so Korean fails twice: labels
+fall back to whatever font the reader has, and they overrun boxes sized for a `0.5em` advance when a
+syllable takes `1.0em`.
+
+Load [`references/ko-typography.md`](references/ko-typography.md); start from
+`assets/template-ko.html`. Fonts, size floors, widths — no colors. Three numbers:
+
+- **One syllable ≈ two Latin characters.** Arrow labels `≤14 chars` → **≤7 syllables**; mask width
+  `syllables × font-size + 8`.
+- **Hangul never below 12px.** The 7–9px Latin steps don't survive translation.
+- **Node width 140–160, not 120.** A 120px box holds four syllables, not eight.
+
+Verify with `python3 <skill-dir>/scripts/ko_check.py <file>`.
+
+## 0.6. Verify by rendering
+
+Static checkers estimate; a browser measures. After §9, run
+`python3 <skill-dir>/scripts/render_check.py <file> --shot ./shots` and **look at the PNG**: real
+overflow, real occlusion, and the font actually used per label — a missing webfont never errors, it
+falls back to whatever is installed on *your* machine.
+See [`references/verify-render.md`](references/verify-render.md).
 
 ---
 
@@ -475,6 +504,17 @@ Run before producing any diagram.
 - [ ] Page title in Instrument Serif?
 - [ ] Annotation callouts (if any) in *italic* Instrument Serif? (see [primitive-annotation.md](references/primitive-annotation.md))
 - [ ] No JetBrains Mono anywhere?
+
+**Korean (only when the diagram carries Hangul — §0.5):**
+
+- [ ] Every Hangul label ≥ 12px, and every Hangul-bearing stack names a family that ships Hangul?
+- [ ] Arrow labels ≤ 7 syllables, with the mask sized `syllables × font-size + 8` and re-centered?
+- [ ] `<html lang="ko">`, `word-break: keep-all`, and eyebrow tracking dropped to ≤ 0.06em with no `uppercase`?
+- [ ] Ran `python3 <skill-dir>/scripts/ko_check.py <file>` clean?
+
+**Rendered (§0.6):**
+
+- [ ] Ran `python3 <skill-dir>/scripts/render_check.py <file> --shot ./shots` clean, and looked at the PNG?
 
 ---
 

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>다이어그램</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f5f5f5;   /* white-smoke */
+      --color-ink:     #2d3142;   /* jet-black */
+      --color-muted:   #4f5d75;   /* blue-slate */
+      --color-accent:  #eb6c36;   /* atomic-tangerine */
+      /* Latin keeps Geist / Instrument Serif; only Hangul falls through. Pretendard is a
+         LOCAL name — never a CDN @font-face — so a shared file degrades to IBM Plex Sans KR. */
+      --font-sans:     'Geist', 'Pretendard Variable', Pretendard, 'IBM Plex Sans KR', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', 'Noto Serif KR', serif;
+      --font-mono:     'Geist Mono', 'IBM Plex Sans KR', ui-monospace, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      /* Korean wraps at 어절 boundaries, not mid-syllable-block. */
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    .frame { max-width: 1200px; width: 100%; }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;      /* 12px floor — 0.66rem Hangul is a grey smudge */
+      font-weight: 500;
+      letter-spacing: 0.04em;  /* 0.18em breaks Hangul syllable spacing */
+      /* text-transform: uppercase — dropped: no-op on Hangul, and it uppercases mixed-in Latin */
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;  /* Hangul serif needs less negative tracking than Latin */
+      line-height: 1.35;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+
+    p, li { line-height: 1.7; }   /* Hangul reads cramped below ~1.55 */
+
+    svg { width: 100%; min-width: 900px; display: block; }
+
+    /* Name the stack on SVG text too — it does not inherit the CSS variables. */
+    svg text { font-family: var(--font-sans); }
+    svg text.mono { font-family: var(--font-mono); }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">[유형] · Diagram Design</p>
+    <h1>[다이어그램 제목]</h1>
+
+    <!-- Replace [diagram-slug] with a unique slug for this diagram before export. -->
+    <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="[diagram-slug]-title [diagram-slug]-desc">
+      <title id="[diagram-slug]-title">[다이어그램 제목]</title>
+      <desc id="[diagram-slug]-desc">[이 다이어그램이 무엇을 보여주는지 한 문장]</desc>
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
+        <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+        <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/></marker>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+      <!-- Korean sizing, on the 4px ramp:
+             node width 120 → 7 Hangul syllables   |  160 → 10   |  200 → 14   |  240 → 17
+             every Hangul font-size ≥ 12; arrow-label mask width = syllables × 12 + 8
+           Draw arrows first, then labels, then nodes. -->
+
+    </svg>
+  </div>
+</body>
+</html>

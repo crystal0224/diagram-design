@@ -342,6 +342,9 @@ diagram-design/
 │       │   ├── animation.md         — optional motion + accessibility contract
 │       │   ├── onboarding.md        — the URL-to-tokens flow
 │       │   ├── profiles.md          — named client profiles + project markers
+│       │   ├── design-md-bridge.md  — skinning from a design-md brand token file
+│       │   ├── ko-typography.md     — Korean/CJK layer: fonts, size floors, width budgets
+│       │   ├── verify-render.md     — render-and-measure loop
 │       │   ├── import-drawio.md     — draw.io redraw procedure
 │       │   ├── import-mermaid.md    — Mermaid redraw procedure
 │       │   ├── output-spec.md       — format × size × detail level
@@ -366,7 +369,10 @@ diagram-design/
 │       ├── scripts/
 │       │   ├── drawio_extract.py    — draw.io → structured IR
 │       │   ├── mermaid_extract.py   — Mermaid → structured IR
-│       │   └── self_check.py        — packaged output self-check (runs installed)
+│       │   ├── self_check.py        — packaged output self-check (runs installed)
+│       │   ├── ko_check.py          — Korean layer check (no deps)
+│       │   ├── render_check.py      — real-browser geometry + font check (Playwright)
+│       │   └── design_md_skin.py    — design-md brand → semantic roles, with contrast checks
 │       └── assets/
 │           ├── index.html           — live gallery, tabbed
 │           ├── template*.html       — scaffolds for new diagrams

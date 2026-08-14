@@ -35,6 +35,8 @@ import io
 import re
 import subprocess
 import sys
+import urllib.parse
+import urllib.request
 import tempfile
 from html.parser import HTMLParser
 from pathlib import Path
@@ -57,6 +59,21 @@ WEIGHT_NAMES = {
 BEGIN = "/* embed_font.py: begin embedded subset — regenerate, do not hand-edit */"
 END = "/* embed_font.py: end embedded subset */"
 BLOCK_RE = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
+
+G_BEGIN = "/* embed_font.py: begin inlined webfonts — regenerate, do not hand-edit */"
+G_END = "/* embed_font.py: end inlined webfonts */"
+G_BLOCK_RE = re.compile(re.escape(G_BEGIN) + r".*?" + re.escape(G_END), re.S)
+GOOGLE_LINK_RE = re.compile(
+    r"[ \t]*<link[^>]+href=[\"\'](https://fonts\.googleapis\.com/css2[^\"\']*)[\"\'][^>]*>\n?", re.I)
+BROWSER_UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+              "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+# Families that actually carry CJK glyphs. Everything else gets a Latin-only
+# `text=`, so its unicode-range never claims Hangul it cannot draw — a face that
+# claims a codepoint and lacks the glyph renders tofu instead of falling through.
+CJK_WEBFONTS = {"ibm plex sans kr", "noto sans kr", "noto serif kr", "nanum gothic",
+                "nanum myeongjo", "gowun batang", "gowun dodum", "gothic a1"}
+
+CJK_RE = re.compile(r"[가-힣ᄀ-ᇿ一-鿿぀-ヿ]")
 
 # Characters every diagram needs regardless of its labels.
 ALWAYS = set(" ·—–-…()[]{}/:.,%0123456789")
@@ -175,6 +192,79 @@ def uncovered_characters(block: str, characters: set[str]) -> set[str]:
     return {c for c in characters if ord(c) not in covered}
 
 
+def parse_google_link(href: str) -> list[tuple[str, list[int]]]:
+    """`...css2?family=Geist:wght@400;500&family=Instrument+Serif:ital@0;1` → [(family, weights)]."""
+    families: list[tuple[str, list[int]]] = []
+    for spec in re.findall(r"family=([^&]+)", href):
+        spec = urllib.parse.unquote(spec).replace("+", " ")
+        name, _, axes = spec.partition(":")
+        weights = [int(w) for w in re.findall(r"\b([1-9]00)\b", axes)] or [400]
+        families.append((name.strip(), sorted(set(weights))))
+    return families
+
+
+def fetch_google_subset(family: str, weight: int, characters: set[str]) -> bytes | None:
+    """One already-subset woff2 from the Google Fonts `text=` API."""
+    if not characters:
+        return None
+    text = "".join(sorted(characters))
+    url = (f"https://fonts.googleapis.com/css2?family={urllib.parse.quote(family.replace(' ', '+'), safe='+')}"
+           f":wght@{weight}&text={urllib.parse.quote(text)}")
+    try:
+        css = urllib.request.urlopen(  # noqa: S310 — pinned host
+            urllib.request.Request(url, headers={"User-Agent": BROWSER_UA}), timeout=30
+        ).read().decode("utf-8")
+    except Exception:  # noqa: BLE001 — a family without this weight is not fatal
+        return None
+    match = re.search(r"src:\s*url\((https://fonts\.gstatic\.com/[^)]+)\)", css)
+    if not match:
+        return None
+    try:
+        return urllib.request.urlopen(  # noqa: S310 — pinned host
+            urllib.request.Request(match.group(1), headers={"User-Agent": BROWSER_UA}), timeout=30
+        ).read()
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def inline_google_fonts(source: str, characters: set[str], embedded_family: str | None) -> tuple[str, list[str]]:
+    """Replace the Google Fonts <link> with inlined, document-subset faces."""
+    link = GOOGLE_LINK_RE.search(source)
+    if not link:
+        return source, []
+    latin_only = {c for c in characters if not CJK_RE.match(c)}
+    notes: list[str] = []
+    faces: list[str] = []
+    for family, weights in parse_google_link(link.group(1)):
+        is_cjk = family.casefold() in CJK_WEBFONTS
+        if is_cjk and embedded_family:
+            # A locally embedded Hangul face already covers this; a second one is dead weight.
+            notes.append(f"skipped {family} — {embedded_family} is embedded and covers Hangul")
+            continue
+        wanted = characters if is_cjk else latin_only
+        for weight in weights:
+            payload = fetch_google_subset(family, weight, wanted)
+            if payload is None:
+                notes.append(f"{family} {weight}: no subset returned")
+                continue
+            encoded = base64.b64encode(payload).decode("ascii")
+            faces.append(
+                f"@font-face{{font-family:'{family}';font-style:normal;font-weight:{weight};"
+                f"font-display:swap;src:url(data:font/woff2;base64,{encoded}) format('woff2');}}"
+            )
+            notes.append(f"{family} {weight}: {len(payload) / 1024:.1f} KB")
+    if not faces:
+        return source, notes
+    block = "\n".join([G_BEGIN, *faces, G_END])
+    source = GOOGLE_LINK_RE.sub("", source, count=1)
+    source = G_BLOCK_RE.sub("", source)
+    marker = source.find("<style>")
+    if marker == -1:
+        return source, notes + ["no <style> block to inject into"]
+    insert = marker + len("<style>")
+    return source[:insert] + "\n" + block + "\n" + source[insert:], notes
+
+
 def build_block(family: str, faces: list[tuple[int, bytes]]) -> str:
     lines = [BEGIN]
     for weight, payload in sorted(faces):
@@ -187,18 +277,28 @@ def build_block(family: str, faces: list[tuple[int, bytes]]) -> str:
     return "\n".join(lines)
 
 
-def ensure_stack(source: str, family: str) -> tuple[str, bool]:
-    """Put the embedded family ahead of the webfont fallback in --font-sans."""
-    match = re.search(r"(--font-sans:\s*)([^;]+);", source)
-    if not match:
-        return source, False
-    stack = match.group(2)
-    if f"'{family}'" in stack or f'"{family}"' in stack or family in stack.split(","):
-        return source, False
-    # After the Latin face, before the Korean webfont fallback.
-    parts = [p.strip() for p in stack.split(",")]
-    parts.insert(1, f"'{family}'")
-    return source[:match.start(2)] + ", ".join(parts) + source[match.end(2):], True
+def ensure_stack(source: str, family: str) -> tuple[str, list[str]]:
+    """Put the embedded family right after the Latin face in every font variable.
+
+    `--font-mono` needs it as much as `--font-sans` does: mono is for technical
+    Latin strings, but a legend or eyebrow written in Hangul lands in that stack
+    too, and Geist Mono has no Hangul. Without this the label silently resolves
+    to a system font — which is the exact failure embedding was meant to end.
+    """
+    changed: list[str] = []
+    for variable in ("--font-sans", "--font-serif", "--font-mono"):
+        match = re.search(rf"({re.escape(variable)}:\s*)([^;]+);", source)
+        if not match:
+            continue
+        stack = match.group(2)
+        names = [part.strip().strip("'\"") for part in stack.split(",")]
+        if family in names:
+            continue
+        parts = [part.strip() for part in stack.split(",")]
+        parts.insert(1, f"'{family}'")
+        source = source[:match.start(2)] + ", ".join(parts) + source[match.end(2):]
+        changed.append(variable)
+    return source, changed
 
 
 def process(path: Path, family: str, check_only: bool) -> int:
@@ -262,8 +362,24 @@ def process(path: Path, family: str, check_only: bool) -> int:
     print(f"     embedded {family}: {detail}")
     print(f"     {len(characters)} distinct characters · file {before / 1024:.0f} KB → {after / 1024:.0f} KB")
     if changed:
-        print(f"     added '{family}' to --font-sans")
+        print(f"     added '{family}' to {', '.join(changed)}")
     print("     re-run after editing labels — new characters are not in this subset")
+    return 0
+
+
+def inline_webfonts(path: Path, embedded_family: str | None) -> int:
+    source = path.read_text(encoding="utf-8")
+    before = len(source.encode())
+    source, notes = inline_google_fonts(source, used_characters(source), embedded_family)
+    if not notes:
+        print(f"     no Google Fonts link found in {path.name} — nothing to inline")
+        return 0
+    path.write_text(source, encoding="utf-8")
+    after = len(source.encode())
+    print(f"     inlined webfonts · file {before / 1024:.0f} KB → {after / 1024:.0f} KB")
+    for note in notes:
+        print(f"       {note}")
+    print("     the Google Fonts <link> is gone — this file needs no network at all")
     return 0
 
 
@@ -272,6 +388,9 @@ def main() -> int:
     ap.add_argument("paths", nargs="+", type=Path)
     ap.add_argument("--family", default="Pretendard", help="installed family name (default: Pretendard)")
     ap.add_argument("--check", action="store_true", help="report whether a subset is embedded; change nothing")
+    ap.add_argument("--google-auto", action="store_true",
+                    help="also inline the document's Google Fonts link as subset faces, then remove the link "
+                         "(makes the file render identically with no network at all)")
     args = ap.parse_args()
 
     status = 0
@@ -281,6 +400,8 @@ def main() -> int:
             status = 1
             continue
         status |= process(path, args.family, args.check)
+        if args.google_auto and not args.check:
+            status |= inline_webfonts(path, args.family)
     return status
 
 

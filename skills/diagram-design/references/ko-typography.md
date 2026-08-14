@@ -48,9 +48,20 @@ installed and `IBM Plex Sans KR` everywhere else. When the diagram is a delivera
 same rendering on the recipient's screen, embed it:
 
 ```bash
-python3 <skill-dir>/scripts/embed_font.py diagram.html            # subset + inline
-python3 <skill-dir>/scripts/embed_font.py diagram.html --check     # is the subset current?
+python3 <skill-dir>/scripts/embed_font.py diagram.html --google-auto   # fully offline
+python3 <skill-dir>/scripts/embed_font.py diagram.html --check          # is the subset current?
 ```
+
+`--google-auto` also replaces the Google Fonts `<link>` with document-subset faces fetched through
+the Fonts API's `text=` parameter, then deletes the link. Embedding Pretendard alone is not enough:
+Geist, Geist Mono, and Instrument Serif are CDN-only, so a recipient behind a firewall gets Courier
+for every Latin sublabel while the Hangul renders perfectly. With `--google-auto` the file makes
+**zero network requests** and renders identically offline — verified by blocking all traffic in
+Chromium and reading back the resolved face per label.
+
+The embedded family is inserted into `--font-serif` and `--font-mono` as well as `--font-sans`.
+Mono is for technical Latin, but a legend or eyebrow written in Hangul lands in that stack too, and
+Geist Mono has no Hangul — without this one label silently resolves to a system font.
 
 The usual objection to embedding CJK is size — a full Hangul face is 1.5 MB. It doesn't apply here.
 A diagram carries a few dozen distinct characters, so subsetting to the text actually present costs

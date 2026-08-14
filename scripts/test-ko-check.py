@@ -213,6 +213,19 @@ clean(
 )
 
 clean(
+    "inlined @font-face replaces the link without tripping coverage",
+    document(
+        svg(
+            '<rect x="40" y="40" width="240" height="48" />'
+            f'<text x="160" y="68" font-size="12" text-anchor="middle" font-family="{KO_STACK}">'
+            "인증 서버</text>"
+        ),
+        link="",
+        style="@font-face{font-family:'Pretendard';font-weight:600;src:url(data:font/woff2;base64,AAAA) format('woff2');}",
+    ),
+)
+
+clean(
     "an english-only diagram is untouched by the korean layer",
     document(
         svg(

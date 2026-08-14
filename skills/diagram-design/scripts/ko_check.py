@@ -391,8 +391,15 @@ def check_font_coverage(parser: DiagramParser, style: Style, errors: list[str], 
         any(fam.replace(" ", "+") in href.replace("%20", "+") for fam in ("IBM+Plex+Sans+KR", "Noto+Sans+KR", "Noto+Serif+KR", "Nanum", "Gowun", "Gothic+A1"))
         for href in parser.links
     )
+    # An inlined @font-face carrying a Hangul family satisfies coverage without any
+    # link — that is the stronger state (scripts/embed_font.py --google-auto), not a defect.
+    stylesheet = " ".join(parser.styles)
+    inlined_korean = any(
+        re.search(r"@font-face[^}]*font-family\s*:\s*['\"]?" + re.escape(family), stylesheet, re.I)
+        for family in KOREAN_FAMILIES
+    )
     hangul_present = any(is_hangul(node.text) for node in parser.texts + parser.html_blocks)
-    if hangul_present and not korean_link:
+    if hangul_present and not korean_link and not inlined_korean:
         errors.append(
             "the document has Hangul but no Korean family in the Google Fonts link — "
             "add IBM+Plex+Sans+KR (and Noto+Serif+KR for the title); "

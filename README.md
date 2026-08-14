@@ -372,7 +372,7 @@ diagram-design/
 │       │   ├── self_check.py        — packaged output self-check (runs installed)
 │       │   ├── ko_check.py          — Korean layer check (no deps)
 │       │   ├── render_check.py      — real-browser geometry + font check (Playwright)
-│       │   ├── embed_font.py        — subset an installed font to the diagram's text, inline it
+│       │   ├── embed_font.py        — subset fonts to the diagram's text, inline them (offline-safe)
 │       │   ├── make_profile.py      — brand → named client profile, Korean-ready
 │       │   └── design_md_skin.py    — design-md brand → semantic roles, with contrast checks
 │       └── assets/

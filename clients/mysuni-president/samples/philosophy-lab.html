@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mySUNI 철학 개념도 회귀시험</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap">
+  <style>
+    :root{--paper:#071524;--paper2:#152334;--paper3:#0e1d2b;--ink:#f7f9fc;--muted:#9aa5b1;--soft:#74879a;--rule:#29465c;--accent:#69d5f5;--accent-tint:rgba(105,213,245,.12);--amber:#d7a45a}
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-snap-type:y mandatory;background:var(--paper)}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:'Pretendard Variable',Pretendard,'Apple SD Gothic Neo',sans-serif;word-break:keep-all}
+    nav{position:fixed;z-index:20;top:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;padding:8px;background:rgba(7,21,36,.92);border:1px solid var(--rule);border-radius:8px;backdrop-filter:blur(12px)}
+    nav a{display:grid;place-items:center;width:44px;height:44px;border-radius:4px;color:var(--muted);font-size:23px;font-weight:700;text-decoration:none}
+    nav a:hover,nav a:focus-visible{color:var(--paper);background:var(--accent);outline:none}
+    section{width:min(100vw,1280px);height:720px;margin:0 auto;padding:52px 64px 44px;scroll-snap-align:start;background:var(--paper);overflow:hidden}
+    header{display:flex;align-items:flex-start;justify-content:space-between;gap:48px;margin-bottom:24px}
+    .eyebrow{margin:0 0 10px;color:var(--accent);font-size:23px;font-weight:700;line-height:1.2}
+    h1{margin:0;font-size:34px;line-height:1.12;letter-spacing:-.035em}
+    .count{color:var(--muted);font-size:23px;font-weight:600}
+    svg{display:block;width:100%;height:500px}
+    svg text{font-family:'Pretendard Variable',Pretendard,'Apple SD Gothic Neo',sans-serif}
+    .surface{fill:var(--paper2);stroke:var(--rule);stroke-width:1.5}
+    .surface.focal{fill:var(--accent-tint);stroke:var(--accent);stroke-width:2}
+    .surface.context{fill:var(--paper3);stroke:var(--rule);stroke-width:1.5;stroke-dasharray:7 6}
+    .name{fill:var(--ink);font-size:23px;font-weight:700}
+    .sub{fill:var(--muted);font-size:23px;font-weight:400}
+    .small{fill:var(--muted);font-size:23px;font-weight:500}
+    .edge{fill:none;stroke:var(--muted);stroke-width:1.5}
+    .edge.focal{stroke:var(--accent);stroke-width:2}
+    .edge.context{stroke:var(--soft);stroke-dasharray:7 6}
+    .edge-label{fill:var(--ink);font-size:23px;font-weight:600}
+    .edge-mask{fill:var(--paper)}
+    .zone-label{fill:var(--accent);font-size:23px;font-weight:700}
+    .conclusion{fill:var(--amber);font-family:NanumMyeongjo,'Nanum Myeongjo',serif;font-size:38px;font-weight:700}
+    @media(max-width:900px){section{width:1280px}nav{left:24px;transform:none}}
+    @media print{nav{display:none}section{break-after:page}}
+  </style>
+</head>
+<body>
+  <nav aria-label="샘플 이동"><a href="#sample-1">1</a><a href="#sample-2">2</a><a href="#sample-3">3</a></nav>
+
+  <section id="sample-1">
+    <header>
+      <div><p class="eyebrow">위계 · 분기</p><h1>플라톤의 선분 비유 — 인식의 두 영역과 네 단계</h1></div>
+      <div class="count">01 / 03</div>
+    </header>
+    <svg viewBox="0 0 1152 500" role="img" aria-labelledby="line-title line-desc">
+      <title id="line-title">플라톤의 선분 비유 구조</title>
+      <desc id="line-desc">의견과 지식이라는 두 영역 아래에 상상, 믿음, 추론, 지성이 위계적으로 놓이는 관계를 보여준다.</desc>
+      <defs>
+        <marker id="line-arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#9aa5b1"/></marker>
+      </defs>
+      <rect width="1152" height="500" fill="#071524"/>
+      <path class="edge" d="M576 88 V132 H304 V174"/>
+      <path class="edge focal" d="M576 88 V132 H848 V174"/>
+      <path class="edge" d="M304 250 V284 H172 V322"/>
+      <path class="edge" d="M304 250 V284 H436 V322"/>
+      <path class="edge focal" d="M848 250 V284 H716 V322"/>
+      <path class="edge focal" d="M848 250 V284 H980 V322"/>
+      <rect class="surface" x="416" y="28" width="320" height="60" rx="6"/>
+      <text class="name" x="576" y="66" text-anchor="middle">인식의 대상과 방식</text>
+      <rect class="surface" x="152" y="174" width="304" height="76" rx="6"/>
+      <text class="name" x="304" y="208" text-anchor="middle">의견 doxa</text>
+      <text class="sub" x="304" y="236" text-anchor="middle">감각적 대상 판단</text>
+      <rect class="surface focal" x="696" y="174" width="304" height="76" rx="6"/>
+      <text class="name" x="848" y="208" text-anchor="middle">지식 epistēmē</text>
+      <text class="sub" x="848" y="236" text-anchor="middle">이해 가능한 대상</text>
+      <rect class="surface" x="56" y="322" width="232" height="88" rx="6"/>
+      <text class="name" x="172" y="358" text-anchor="middle">상상 eikasia</text>
+      <text class="sub" x="172" y="390" text-anchor="middle">그림자·반영</text>
+      <rect class="surface" x="320" y="322" width="232" height="88" rx="6"/>
+      <text class="name" x="436" y="358" text-anchor="middle">믿음 pistis</text>
+      <text class="sub" x="436" y="390" text-anchor="middle">감각적 사물</text>
+      <rect class="surface focal" x="600" y="322" width="232" height="88" rx="6"/>
+      <text class="name" x="716" y="358" text-anchor="middle">추론 dianoia</text>
+      <text class="sub" x="716" y="390" text-anchor="middle">가정에서 출발</text>
+      <rect class="surface focal" x="864" y="322" width="232" height="88" rx="6"/>
+      <text class="name" x="980" y="358" text-anchor="middle">지성 noēsis</text>
+      <text class="sub" x="980" y="390" text-anchor="middle">원리를 향한 이해</text>
+      <text class="small" x="576" y="468" text-anchor="middle">위계는 단순한 ‘좋고 나쁨’이 아니라 대상과 인식 방식의 차이를 함께 나타냄</text>
+    </svg>
+  </section>
+
+  <section id="sample-2">
+    <header>
+      <div><p class="eyebrow">본보기 · 조건 · 정돈</p><h1>『티마이오스』의 우주 생성 관계 — 무에서 만드는 창조가 아님</h1></div>
+      <div class="count">02 / 03</div>
+    </header>
+    <svg viewBox="0 0 1152 500" role="img" aria-labelledby="timaeus-title timaeus-desc">
+      <title id="timaeus-title">티마이오스의 우주 생성 관계</title>
+      <desc id="timaeus-desc">이데아를 본보기로 삼고 코라와 필연이라는 조건 아래에서 데미우르고스가 생성되는 우주를 지성적으로 정돈하는 관계를 보여준다.</desc>
+      <defs>
+        <marker id="tim-arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#9aa5b1"/></marker>
+        <marker id="tim-arrow-accent" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#69d5f5"/></marker>
+      </defs>
+      <rect width="1152" height="500" fill="#071524"/>
+      <path class="edge focal" d="M296 118 H494" marker-end="url(#tim-arrow-accent)"/>
+      <path class="edge context" d="M296 356 H396 Q420 356 420 332 V286 Q420 262 444 262 H494" marker-end="url(#tim-arrow)"/>
+      <path class="edge focal" d="M734 246 H934" marker-end="url(#tim-arrow-accent)"/>
+      <rect class="edge-mask" x="328" y="92" width="152" height="52" rx="4"/>
+      <text class="edge-label" x="404" y="124" text-anchor="middle">본보기로 참조</text>
+      <rect class="edge-mask" x="324" y="314" width="180" height="52" rx="4"/>
+      <text class="edge-label" x="414" y="346" text-anchor="middle">제약하며 설득됨</text>
+      <rect class="edge-mask" x="766" y="220" width="136" height="52" rx="4"/>
+      <text class="edge-label" x="834" y="252" text-anchor="middle">질서를 부여</text>
+      <rect class="surface" x="40" y="62" width="256" height="112" rx="6"/>
+      <text class="zone-label" x="64" y="96">영원한 본보기</text>
+      <text class="name" x="64" y="134">이데아 · 우주 본보기</text>
+      <rect class="surface context" x="40" y="292" width="256" height="128" rx="6"/>
+      <text class="zone-label" x="64" y="326">생성의 조건</text>
+      <text class="name" x="64" y="364">코라 chōra</text>
+      <text class="sub" x="64" y="400">필연 anankē</text>
+      <rect class="surface focal" x="494" y="188" width="240" height="116" rx="6"/>
+      <text class="zone-label" x="614" y="224" text-anchor="middle">지성적 정돈</text>
+      <text class="name" x="614" y="264" text-anchor="middle">데미우르고스</text>
+      <rect class="surface" x="934" y="188" width="184" height="116" rx="6"/>
+      <text class="zone-label" x="1026" y="224" text-anchor="middle">결과</text>
+      <text class="name" x="1026" y="264" text-anchor="middle">생성되는 우주</text>
+      <text class="conclusion" x="576" y="470" text-anchor="middle">창조의 핵심은 ‘무에서 생성’이 아니라 ‘질서 있게 정돈’하는 데 있음</text>
+    </svg>
+  </section>
+
+  <section id="sample-3">
+    <header>
+      <div><p class="eyebrow">원본에서 강의 재료까지</p><h1>필기 복원과 외부 연구를 섞지 않고 발전시키는 흐름</h1></div>
+      <div class="count">03 / 03</div>
+    </header>
+    <svg viewBox="0 0 1152 500" role="img" aria-labelledby="flow-title flow-desc">
+      <title id="flow-title">필기 복원에서 강의 재료까지의 흐름</title>
+      <desc id="flow-desc">촬영 원본과 OCR을 검수한 뒤 외부 연구를 분리해 붙이고 강의 재료와 강의안으로 발전시키는 품질 게이트를 보여준다.</desc>
+      <defs>
+        <marker id="flow-arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#9aa5b1"/></marker>
+        <marker id="flow-arrow-accent" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#69d5f5"/></marker>
+      </defs>
+      <rect width="1152" height="500" fill="#071524"/>
+      <path class="edge" d="M248 126 H308" marker-end="url(#flow-arrow)"/>
+      <path class="edge" d="M528 126 H588" marker-end="url(#flow-arrow)"/>
+      <path class="edge context" d="M418 332 V276 H698 V206" marker-end="url(#flow-arrow)"/>
+      <path class="edge focal" d="M808 126 H868" marker-end="url(#flow-arrow-accent)"/>
+      <path class="edge focal" d="M978 206 V300" marker-end="url(#flow-arrow-accent)"/>
+      <rect class="surface" x="28" y="62" width="220" height="144" rx="6"/>
+      <text class="zone-label" x="52" y="98">01 원본 고정</text>
+      <text class="name" x="52" y="140">촬영 이미지</text>
+      <text class="sub" x="52" y="176">순서 · 배치</text>
+      <rect class="surface" x="308" y="62" width="220" height="144" rx="6"/>
+      <text class="zone-label" x="332" y="98">02 OCR 검수</text>
+      <text class="name" x="332" y="140">전문 복원</text>
+      <text class="sub" x="332" y="176">불확실성 · 수정 이력</text>
+      <rect class="surface focal" x="588" y="62" width="220" height="144" rx="6"/>
+      <text class="zone-label" x="612" y="98">03 최종 읽기본</text>
+      <text class="name" x="612" y="140">원문 기반 윤문</text>
+      <text class="sub" x="612" y="176">원본 권위 유지</text>
+      <rect class="surface" x="298" y="300" width="240" height="136" rx="6"/>
+      <text class="zone-label" x="322" y="336">외부 연구</text>
+      <text class="name" x="322" y="378">개념 · 원전 확인</text>
+      <text class="sub" x="322" y="414">원문과 분리한 각주</text>
+      <rect class="surface focal" x="868" y="62" width="220" height="144" rx="6"/>
+      <text class="zone-label" x="892" y="98">04 강의 재료</text>
+      <text class="name" x="892" y="140">논지 · 시각화</text>
+      <text class="sub" x="892" y="176">원문 보존 발전본</text>
+      <rect class="surface" x="868" y="300" width="220" height="136" rx="6"/>
+      <text class="zone-label" x="892" y="336">05 강의안</text>
+      <text class="name" x="892" y="378">청중 맞춤 구성</text>
+      <text class="sub" x="892" y="414">선택 흐름만 발전</text>
+      <text class="small" x="576" y="476" text-anchor="middle">외부 연구는 원문을 덮어쓰지 않고, 이해와 검증을 돕는 별도 레인으로만 결합</text>
+    </svg>
+  </section>
+</body>
+</html>

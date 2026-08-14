@@ -76,6 +76,22 @@ Two more the script flags but cannot decide:
 
 ---
 
+## 3.5. Save it once, not per project
+
+A brand you reach for repeatedly should be a **named profile**, not a style-guide edit you redo. One
+command turns a brand into a profile stored outside the install, where plugin updates can't reach it:
+
+```bash
+python3 <skill-dir>/scripts/make_profile.py montage --korean \
+    --name "Wanted · 원티드" --set ink=#171719 --set link=#37383c
+python3 <skill-dir>/scripts/make_profile.py --seed-default    # once, before the first save
+```
+
+`--set` / `--set-dark` apply the overrides this file's §3 describes, and the constraint check re-runs
+**after** them, so a warning you have already fixed doesn't keep printing. `--korean` swaps in the
+[`ko-typography.md`](ko-typography.md) stack and floors, so one load gives a project both the brand
+and Hangul coverage. Load, list, and switch are the verbs in [`profiles.md`](profiles.md).
+
 ## 4. Applying it
 
 1. Run the script; read the table.

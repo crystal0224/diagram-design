@@ -89,7 +89,7 @@ to the governed 17.25 pt floor.
 ### Font stack
 
 ```css
---font-sans: 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', sans-serif;
+--font-sans: 'Pretendard Variable', Pretendard, 'IBM Plex Sans KR', 'Apple SD Gothic Neo', sans-serif;
 --font-serif: NanumMyeongjo, 'Nanum Myeongjo', serif;
 --font-mono: 'Pretendard Variable', Pretendard, sans-serif;
 ```

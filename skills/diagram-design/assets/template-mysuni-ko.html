@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[철학 개념도 제목]</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#071524;color:#F7F9FC}
+    body{font-family:'Pretendard Variable',Pretendard,'Apple SD Gothic Neo',sans-serif;word-break:keep-all}
+    main{width:min(100vw,1280px);min-height:720px;margin:0 auto;padding:52px 64px 48px;background:#071524}
+    header{display:flex;align-items:flex-start;justify-content:space-between;gap:48px;margin-bottom:28px}
+    .eyebrow{margin:0 0 12px;color:#69D5F5;font-size:23px;font-weight:600;line-height:1.2}
+    h1{margin:0;font-size:34px;line-height:1.12;letter-spacing:-.035em}
+    .status{color:#9AA5B1;font-size:23px;line-height:1.2;white-space:nowrap}
+    svg{display:block;width:100%;height:auto;overflow:visible}
+    svg text{font-family:'Pretendard Variable',Pretendard,'Apple SD Gothic Neo',sans-serif}
+    .node{fill:#152334;stroke:#29465C;stroke-width:1.5}
+    .node.focal{fill:rgba(105,213,245,.12);stroke:#69D5F5;stroke-width:2}
+    .name{fill:#F7F9FC;font-size:23px;font-weight:600}
+    .sub{fill:#9AA5B1;font-size:23px;font-weight:400}
+    .edge{fill:none;stroke:#9AA5B1;stroke-width:1.5}
+    .edge.focal{stroke:#69D5F5;stroke-width:2}
+    .edge-label{fill:#F7F9FC;font-size:23px;font-weight:500}
+    .edge-mask{fill:#071524}
+    footer{display:flex;justify-content:space-between;gap:32px;margin-top:22px;color:#9AA5B1;font-size:23px;line-height:1.35}
+    @media(max-width:900px){main{width:1280px}}
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <p class="eyebrow">[관계 유형]</p>
+        <h1>[철학 개념도 제목]</h1>
+      </div>
+      <div class="status">시각화 회귀시험</div>
+    </header>
+
+    <svg viewBox="0 0 1152 500" role="img" aria-labelledby="mysuni-title mysuni-desc">
+      <title id="mysuni-title">[철학 개념도 제목]</title>
+      <desc id="mysuni-desc">[이 개념도가 보여주는 핵심 관계를 한 문장으로 설명]</desc>
+      <defs>
+        <marker id="mysuni-arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+          <path d="M0,0 L10,4 L0,8 Z" fill="#9AA5B1"/>
+        </marker>
+        <marker id="mysuni-arrow-accent" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+          <path d="M0,0 L10,4 L0,8 Z" fill="#69D5F5"/>
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="1152" height="500" fill="#071524"/>
+      <!-- Connectors first, then masked relation labels, then semantic nodes. -->
+    </svg>
+
+    <footer>
+      <span>[한눈에 읽히는 결론]</span>
+      <span>HTML/SVG 검토본 · PPT에서는 편집 가능한 도형으로 재구성</span>
+    </footer>
+  </main>
+</body>
+</html>

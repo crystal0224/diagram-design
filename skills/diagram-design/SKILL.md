@@ -24,11 +24,9 @@ First check the project root for a `.diagram-design` marker and resolve it per [
 
 Open [`references/style-guide.md`](references/style-guide.md) and check the default tokens. If they're still the shipped defaults (paper `#f5f5f5`, ink `#2d3142`, accent `#eb6c36` atomic-tangerine), **pause and ask the user**:
 
-> *"This is your first diagram in this project. The style guide is still at the default (neutral white-smoke + atomic-tangerine). Do you want to customize it to match your brand first? Options: (a) pull from your website URL, (b) extract from an installed skill, (c) extract from a local folder / design-system directory, (d) paste tokens manually, (e) proceed with the default for now, (f) load a saved client profile."*
+> *"This is your first diagram in this project. The style guide is still at the default (neutral white-smoke + atomic-tangerine). Do you want to customize it to match your brand first? Options: (a) pull from your website URL, (b) extract from an installed skill, (c) extract from a local folder / design-system directory, (d) paste tokens manually, (e) proceed with the default for now, (f) load a saved client profile, (g) use a named brand design system."*
 
-Then branch per the matching section of [`references/onboarding.md`](references/onboarding.md); for **(f)** follow [`references/profiles.md`](references/profiles.md).
-
-- **(b′)** *"use the <brand> design system"* (montage/원티드, linear, notion, vercel, ios26 …) → `python3 <skill-dir>/scripts/design_md_skin.py <brand>` maps ~62 `design-md` brand files onto these roles and measures the result; `--structure-only` when a palette already works. See [`references/design-md-bridge.md`](references/design-md-bridge.md).
+Then branch per the matching section of [`references/onboarding.md`](references/onboarding.md); for **(f)** follow [`references/profiles.md`](references/profiles.md); for **(g)** (montage/원티드, linear, notion, vercel, ios26 …) run `python3 <skill-dir>/scripts/design_md_skin.py <brand>` and see [`references/design-md-bridge.md`](references/design-md-bridge.md).
 
 **Once the style guide has been customized** (or the user explicitly opted for default), skip this gate on subsequent runs. A leading profile header names the copied-in active profile. Without a header, any semantic-role value or typography family differing from shipped defaults means **custom-unsaved**: skip the gate and offer to save it as a profile. All-default tokens with no marker/header trigger the gate. At the end of every onboarding method, offer to save the result as a named client profile per `references/profiles.md`.
 

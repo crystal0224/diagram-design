@@ -41,6 +41,30 @@ renders correctly. That keeps the single-file / approved-remote-asset contract i
 Never add a `@font-face` block pointing at jsDelivr, unpkg, or a raw GitHub URL for Pretendard.
 `self_check.py` fails the file, and the diagram breaks the moment that CDN moves.
 
+### Making Pretendard travel — subset embedding
+
+Pretendard is not on Google Fonts, so the stack above gets you Pretendard on a machine that has it
+installed and `IBM Plex Sans KR` everywhere else. When the diagram is a deliverable and you want the
+same rendering on the recipient's screen, embed it:
+
+```bash
+python3 <skill-dir>/scripts/embed_font.py diagram.html            # subset + inline
+python3 <skill-dir>/scripts/embed_font.py diagram.html --check     # is the subset current?
+```
+
+The usual objection to embedding CJK is size — a full Hangul face is 1.5 MB. It doesn't apply here.
+A diagram carries a few dozen distinct characters, so subsetting to the text actually present costs
+**about 11 KB per weight**; a three-weight Korean diagram goes from 7 KB to roughly 54 KB total, with
+no remote dependency at all. That is a stronger single-file guarantee than the Google Fonts link.
+
+Two things to keep straight:
+
+- **Re-run after editing any label.** The subset is built from the text present at the time. New
+  characters are simply absent and fall back silently. `--check` decodes the embedded faces and
+  compares their cmap against the document, so staleness is a hard failure rather than a warning.
+- **Embedding is redistribution.** Pretendard is OFL-1.1 and permits it. Check the license before
+  pointing `--family` at anything else.
+
 ### SVG `<text>` elements
 
 SVG text does not inherit the CSS variables unless you say so. Every `<text>` that can carry Hangul
@@ -169,6 +193,7 @@ Run the mechanical checker before you hand the file over. It measures rather tha
 
 ```bash
 python3 <skill-dir>/scripts/ko_check.py my-diagram.html
+python3 <skill-dir>/scripts/embed_font.py my-diagram.html --check   # if the file is a deliverable
 ```
 
 It reports, with numbers:

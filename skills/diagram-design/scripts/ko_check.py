@@ -156,15 +156,26 @@ def style_decl(style: str | None, prop: str) -> str | None:
 
 
 class Node:
-    __slots__ = ("tag", "attrs", "text", "order", "in_svg", "transformed", "classes", "inherited")
+    __slots__ = (
+        "tag",
+        "attrs",
+        "text",
+        "order",
+        "in_svg",
+        "svg_scope",
+        "transformed",
+        "classes",
+        "inherited",
+    )
 
     def __init__(self, tag: str, attrs: dict[str, str], order: int, in_svg: bool, transformed: bool,
-                 inherited: dict[str, str]) -> None:
+                 inherited: dict[str, str], svg_scope: int | None = None) -> None:
         self.tag = tag
         self.attrs = attrs
         self.text = ""
         self.order = order
         self.in_svg = in_svg
+        self.svg_scope = svg_scope
         self.transformed = transformed
         self.classes = [c for c in (attrs.get("class") or "").split() if c]
         self.inherited = inherited
@@ -185,6 +196,8 @@ class DiagramParser(HTMLParser):
         self.lang: str | None = None
         self._order = 0
         self._svg_depth = 0
+        self._svg_serial = 0
+        self._svg_scopes: list[int] = []
         self._transform_depth = 0
         self._stack: list[tuple[str, bool, dict[str, str]]] = []
         self._capture: Node | None = None
@@ -223,9 +236,19 @@ class DiagramParser(HTMLParser):
                     ctx[key] = value
 
         if tag == "svg":
+            self._svg_serial += 1
+            self._svg_scopes.append(self._svg_serial)
             self._svg_depth += 1
 
-        node = Node(tag, data, self._order, self._svg_depth > 0, self._transform_depth > 0, self._inherited())
+        node = Node(
+            tag,
+            data,
+            self._order,
+            self._svg_depth > 0,
+            self._transform_depth > 0,
+            self._inherited(),
+            self._svg_scopes[-1] if self._svg_scopes else None,
+        )
 
         if tag == "rect" and self._svg_depth > 0:
             self.rects.append(node)
@@ -262,6 +285,8 @@ class DiagramParser(HTMLParser):
                 break
         if tag == "svg":
             self._svg_depth = max(0, self._svg_depth - 1)
+            if self._svg_scopes:
+                self._svg_scopes.pop()
         if self._capture is not None and self._capture.tag == tag:
             self._capture = None
 
@@ -485,6 +510,8 @@ def enclosing_rect(node: Node, rects: list[Node]) -> tuple[Node, float, float, f
         return None
     best: tuple[Node, float, float, float, float] | None = None
     for rect in rects:
+        if rect.svg_scope != node.svg_scope:
+            continue
         if rect.transformed:
             continue
         rx = parse_length(rect.attrs.get("x"), None)

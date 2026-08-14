@@ -1,0 +1,388 @@
+{
+  "schema": "mysuni.diagram-topology/v1",
+  "source": "philosophy-lab.html",
+  "coordinateSpace": "SVG viewBox",
+  "authority": "visual-structure-only",
+  "diagrams": [
+    {
+      "id": "sample-1",
+      "viewBox": "",
+      "title": "플라톤의 선분 비유 구조",
+      "description": "의견과 지식이라는 두 영역 아래에 상상, 믿음, 추론, 지성이 위계적으로 놓이는 관계를 보여준다.",
+      "nodes": [
+        {
+          "id": "s1-root",
+          "label": "인식의 대상과 방식",
+          "role": "root",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 416.0,
+            "y": 28.0,
+            "width": 320.0,
+            "height": 60.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface"
+        },
+        {
+          "id": "s1-doxa",
+          "label": "의견 doxa — 감각적 대상 판단",
+          "role": "domain",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 152.0,
+            "y": 174.0,
+            "width": 304.0,
+            "height": 76.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface"
+        },
+        {
+          "id": "s1-episteme",
+          "label": "지식 epistēmē — 이해 가능한 대상",
+          "role": "domain",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 696.0,
+            "y": 174.0,
+            "width": 304.0,
+            "height": 76.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface focal"
+        },
+        {
+          "id": "s1-eikasia",
+          "label": "상상 eikasia — 그림자·반영",
+          "role": "stage",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 56.0,
+            "y": 322.0,
+            "width": 232.0,
+            "height": 88.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface"
+        },
+        {
+          "id": "s1-pistis",
+          "label": "믿음 pistis — 감각적 사물",
+          "role": "stage",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 320.0,
+            "y": 322.0,
+            "width": 232.0,
+            "height": 88.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface"
+        },
+        {
+          "id": "s1-dianoia",
+          "label": "추론 dianoia — 가정에서 출발",
+          "role": "stage",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 600.0,
+            "y": 322.0,
+            "width": 232.0,
+            "height": 88.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface focal"
+        },
+        {
+          "id": "s1-noesis",
+          "label": "지성 noēsis — 원리를 향한 이해",
+          "role": "stage",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 864.0,
+            "y": 322.0,
+            "width": 232.0,
+            "height": 88.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface focal"
+        }
+      ],
+      "edges": [
+        {
+          "id": "s1-e1",
+          "source": "s1-root",
+          "target": "s1-doxa",
+          "relation": "분기",
+          "path": "M576 88 V132 H304 V174",
+          "styleClass": "edge"
+        },
+        {
+          "id": "s1-e2",
+          "source": "s1-root",
+          "target": "s1-episteme",
+          "relation": "분기",
+          "path": "M576 88 V132 H848 V174",
+          "styleClass": "edge focal"
+        },
+        {
+          "id": "s1-e3",
+          "source": "s1-doxa",
+          "target": "s1-eikasia",
+          "relation": "세분",
+          "path": "M304 250 V284 H172 V322",
+          "styleClass": "edge"
+        },
+        {
+          "id": "s1-e4",
+          "source": "s1-doxa",
+          "target": "s1-pistis",
+          "relation": "세분",
+          "path": "M304 250 V284 H436 V322",
+          "styleClass": "edge"
+        },
+        {
+          "id": "s1-e5",
+          "source": "s1-episteme",
+          "target": "s1-dianoia",
+          "relation": "세분",
+          "path": "M848 250 V284 H716 V322",
+          "styleClass": "edge focal"
+        },
+        {
+          "id": "s1-e6",
+          "source": "s1-episteme",
+          "target": "s1-noesis",
+          "relation": "세분",
+          "path": "M848 250 V284 H980 V322",
+          "styleClass": "edge focal"
+        }
+      ]
+    },
+    {
+      "id": "sample-2",
+      "viewBox": "",
+      "title": "티마이오스의 우주 생성 관계",
+      "description": "이데아를 본보기로 삼고 코라와 필연이라는 조건 아래에서 데미우르고스가 생성되는 우주를 지성적으로 정돈하는 관계를 보여준다.",
+      "nodes": [
+        {
+          "id": "s2-model",
+          "label": "영원한 본보기 — 이데아·우주 본보기",
+          "role": "model",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 40.0,
+            "y": 62.0,
+            "width": 256.0,
+            "height": 112.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface"
+        },
+        {
+          "id": "s2-condition",
+          "label": "생성의 조건 — 코라 chōra·필연 anankē",
+          "role": "condition",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 40.0,
+            "y": 292.0,
+            "width": 256.0,
+            "height": 128.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface context"
+        },
+        {
+          "id": "s2-demiurge",
+          "label": "지성적 정돈 — 데미우르고스",
+          "role": "agent",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 494.0,
+            "y": 188.0,
+            "width": 240.0,
+            "height": 116.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface focal"
+        },
+        {
+          "id": "s2-cosmos",
+          "label": "결과 — 생성되는 우주",
+          "role": "result",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 934.0,
+            "y": 188.0,
+            "width": 184.0,
+            "height": 116.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface"
+        }
+      ],
+      "edges": [
+        {
+          "id": "s2-e1",
+          "source": "s2-model",
+          "target": "s2-demiurge",
+          "relation": "본보기로 참조",
+          "path": "M296 118 H494",
+          "styleClass": "edge focal"
+        },
+        {
+          "id": "s2-e2",
+          "source": "s2-condition",
+          "target": "s2-demiurge",
+          "relation": "제약하며 설득됨",
+          "path": "M296 356 H396 Q420 356 420 332 V286 Q420 262 444 262 H494",
+          "styleClass": "edge context"
+        },
+        {
+          "id": "s2-e3",
+          "source": "s2-demiurge",
+          "target": "s2-cosmos",
+          "relation": "질서를 부여",
+          "path": "M734 246 H934",
+          "styleClass": "edge focal"
+        }
+      ]
+    },
+    {
+      "id": "sample-3",
+      "viewBox": "",
+      "title": "필기 복원에서 강의 재료까지의 흐름",
+      "description": "촬영 원본과 OCR을 검수한 뒤 외부 연구를 분리해 붙이고 강의 재료와 강의안으로 발전시키는 품질 게이트를 보여준다.",
+      "nodes": [
+        {
+          "id": "s3-source",
+          "label": "원본 고정 — 촬영 이미지·순서·배치",
+          "role": "source",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 28.0,
+            "y": 62.0,
+            "width": 220.0,
+            "height": 144.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface"
+        },
+        {
+          "id": "s3-ocr",
+          "label": "OCR 검수 — 전문 복원·판독 쟁점·수정",
+          "role": "verification",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 308.0,
+            "y": 62.0,
+            "width": 220.0,
+            "height": 144.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface"
+        },
+        {
+          "id": "s3-reading",
+          "label": "최종 읽기본 — 원문 기반 윤문·원본 권위 유지",
+          "role": "canonical-reading",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 588.0,
+            "y": 62.0,
+            "width": 220.0,
+            "height": 144.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface focal"
+        },
+        {
+          "id": "s3-research",
+          "label": "외부 연구 — 개념·원전 확인·분리한 각주",
+          "role": "context",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 298.0,
+            "y": 300.0,
+            "width": 240.0,
+            "height": 136.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface"
+        },
+        {
+          "id": "s3-material",
+          "label": "강의 재료 — 논지·시각화·원문 보존 발전본",
+          "role": "handoff",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 868.0,
+            "y": 62.0,
+            "width": 220.0,
+            "height": 144.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface focal"
+        },
+        {
+          "id": "s3-deck",
+          "label": "강의안 — 청중 맞춤 구성·선택 흐름 발전",
+          "role": "deck",
+          "shape": "rounded-rect",
+          "geometry": {
+            "x": 868.0,
+            "y": 300.0,
+            "width": 220.0,
+            "height": 136.0,
+            "radius": 6.0
+          },
+          "styleClass": "surface"
+        }
+      ],
+      "edges": [
+        {
+          "id": "s3-e1",
+          "source": "s3-source",
+          "target": "s3-ocr",
+          "relation": "복원",
+          "path": "M248 126 H308",
+          "styleClass": "edge"
+        },
+        {
+          "id": "s3-e2",
+          "source": "s3-ocr",
+          "target": "s3-reading",
+          "relation": "검수·윤문",
+          "path": "M528 126 H588",
+          "styleClass": "edge"
+        },
+        {
+          "id": "s3-e3",
+          "source": "s3-research",
+          "target": "s3-reading",
+          "relation": "분리된 각주로 보완",
+          "path": "M418 332 V276 H698 V206",
+          "styleClass": "edge context"
+        },
+        {
+          "id": "s3-e4",
+          "source": "s3-reading",
+          "target": "s3-material",
+          "relation": "논지·시각화 발전",
+          "path": "M808 126 H868",
+          "styleClass": "edge focal"
+        },
+        {
+          "id": "s3-e5",
+          "source": "s3-material",
+          "target": "s3-deck",
+          "relation": "청중 맞춤 선택",
+          "path": "M978 206 V300",
+          "styleClass": "edge focal"
+        }
+      ]
+    }
+  ]
+}

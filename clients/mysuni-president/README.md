@@ -34,9 +34,11 @@ python3 skills/diagram-design/scripts/self_check.py clients/mysuni-president/sam
 python3 scripts/verify-geometry.py clients/mysuni-president/samples/philosophy-lab.html
 python3 skills/diagram-design/scripts/render_check.py clients/mysuni-president/samples/philosophy-lab.html --shot /tmp/mysuni-diagram-shots
 python3 clients/mysuni-president/scripts/check_lab.py clients/mysuni-president/samples/philosophy-lab.html
+python3 clients/mysuni-president/scripts/export_semantic_topology.py clients/mysuni-president/samples/philosophy-lab.html
 ```
 
-`ko_check.py` is still useful for one-diagram files. The gallery deliberately
-contains three independent SVG coordinate spaces, so browser geometry plus the
-client checker is the acceptance authority until `ko_check.py` scopes boxes per
-SVG.
+`ko_check.py` scopes boxes per SVG, so a gallery with repeated coordinates is
+checked without cross-diagram false positives. The semantic exporter writes a
+sidecar JSON containing node roles, geometry, typed relations, and SVG paths.
+That sidecar is the handoff contract for rebuilding a selected study with native
+PowerPoint objects; the browser screenshot remains preview-only.

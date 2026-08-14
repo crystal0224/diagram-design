@@ -142,6 +142,9 @@ Do not repeat equal rounded boxes as decoration and do not nest cards.
 - Every SVG uses `role="img"`, a resolving `aria-labelledby`, a first-child
   `<title>`, and a non-empty `<desc>`.
 - HTML/SVG is the browser-review source of truth. PNG is a preview only.
+- Meaning-bearing nodes declare `data-node-id`, `data-label`, and `data-role`;
+  connectors declare `data-edge-id`, `data-source`, `data-target`, and
+  `data-relation`. Export these into the topology sidecar before deck handoff.
 - When a study enters a lecture deck, rebuild labels, connectors, boundaries,
   formulas, and nodes as editable PowerPoint objects. Never paste the browser
   screenshot as the construction layer.

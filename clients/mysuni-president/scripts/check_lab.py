@@ -28,6 +28,12 @@ def main() -> int:
 
     if text.count("<svg") != 3:
         failures.append("gallery must contain exactly three SVG studies")
+    if len(re.findall(r'data-node-id="[^"]+"', text)) != 17:
+        failures.append("gallery must expose all 17 semantic nodes for native rebuild")
+    if len(re.findall(r'data-edge-id="[^"]+"', text)) != 14:
+        failures.append("gallery must expose all 14 semantic edges for native rebuild")
+    if len(re.findall(r'data-source="[^"]+"\s+data-target="[^"]+"', text)) != 14:
+        failures.append("every semantic edge must declare source and target")
     if text.count(REQUIRED["canvas"]) != 3:
         failures.append("every study must use the 1152 x 500 relationship canvas")
     if len(re.findall(r'<svg[^>]+role="img"', text)) != 3:
